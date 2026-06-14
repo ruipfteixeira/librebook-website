@@ -223,6 +223,19 @@ footer a { color: #B0B0D0; text-decoration: none; }
   <p>© 2026 Librebook &nbsp;·&nbsp; <a href="index.html">Home</a> &nbsp;·&nbsp; 128 Chaussée de Wavre, 1050 Ixelles, Brussels &nbsp;·&nbsp; <a href="tel:+328087440">+32 808 74 40</a></p>
 </footer>
 <script>
+  // Pre-fill from URL params (coming from homepage search)
+  window.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get('q');
+    const lang = params.get('lang');
+    if (q) document.getElementById('searchInput').value = q;
+    if (lang) {
+      const chip = document.querySelector(`.filter-chip[data-filter="${lang}"]`);
+      if (chip) { setFilter(chip, lang); return; }
+    }
+    filterBooks();
+  });
+
   let activeFilter = 'all';
   function setFilter(el, filter) {
     document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
